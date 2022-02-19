@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+
 function Home({datas,DeleteFn}) {
+
+ 
     return (
         <table className="table table-dark table-striped">
         <thead>

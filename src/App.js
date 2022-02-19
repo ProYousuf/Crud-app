@@ -6,14 +6,23 @@ import Form from './Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar } from 'react-bootstrap';
 import Navber from './Navber';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Edit from './Edit';
+import axios from 'axios';
 
 function App() {
   const [data, setData] = useState([])
   const finalData = (values) => {
     setData([...data, values])
   }
+
+  useEffect(async()=>{
+    await axios.get("http://localhost:5000/api/show")
+    .then((res)=>{
+      setData(res.data)
+    })
+    .catch(err=>{console.log(err)})
+    },[])
 
   const DeleteHandaler = (id) => {
     let DeleteData = data.filter((eld, idx) => idx != id)
