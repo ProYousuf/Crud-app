@@ -1,22 +1,32 @@
 import { upload } from '@testing-library/user-event/dist/upload';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function Edit(props) {
 const navigate=useNavigate()
-    const {ind}=useParams()
+    const {id}=useParams()
 const[name,setName]=useState("")
 const[email,setEmail]=useState("")
 
-useEffect(()=>{
-    let editData=props.datas[ind]
-    setName(editData.name)
-    setEmail(editData.email)
+
+useEffect(async()=>{
+    let editData= await axios.get(`http://localhost:5000/api/showSingle/${id}`)
+    console.log(editData,"gggggg")
+    setName(editData.data.name)
+    setEmail(editData.data.email)
 },[])
 
-const editHandelar=(e)=>{
+const editHandelar=async (e)=>{
     e.preventDefault()
-    props.upData({name,email},ind)
+    await axios.post(`http://localhost:5000/api/update/${id}`,{name,email})
+    .then(res=>{
+       console.log(res.data)
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+   
     navigate("/")
     }
     return (
